@@ -16,9 +16,16 @@ export const VehicleCard = ({ vehicle }: any) => {
   const imageUrl = vehicle.thumbnail || vehicle.image || PLACEHOLDER_IMAGE;
 
   return (
-    <div className="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
+    <div className="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 relative">
+      {/* Dealer Discount Label positioned at the top of the card */}
+      {vehicle.dealerDiscount && (
+        <div className="absolute top-2 left-2 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg z-10">
+          Save ${vehicle.dealerDiscount.toLocaleString()}
+        </div>
+      )}
+
       {/* Image Container */}
-      <div className="relative aspect-[16/9] overflow-hidden bg-gray-100">
+      <div className="relative aspect-[16/9] overflow-hidden bg-gray-100 rounded-t-xl">
         <img
           src={imageUrl}
           alt={vehicle.title_vrp}
@@ -28,8 +35,9 @@ export const VehicleCard = ({ vehicle }: any) => {
             e.currentTarget.src = PLACEHOLDER_IMAGE;
           }}
         />
+        {/* Savings Label within the image */}
         {vehicle.lightning?.pricing?.savings?.value > 0 && (
-          <div className="absolute top-4 right-4 bg-gradient-to-r from-red-600 to-red-700 text-white px-4 py-1.5 rounded-full text-sm font-semibold shadow-lg">
+          <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-lg text-xs font-semibold shadow-md z-10">
             Save ${vehicle.lightning.pricing.savings.value.toLocaleString()}
           </div>
         )}
@@ -95,7 +103,7 @@ export const VehicleCard = ({ vehicle }: any) => {
 
         {/* Action Button */}
         <a
-          href={vehicle.link}
+          href={vehicle.link + '?utm_source=hv_auto&utm_medium=referral&utm_campaign=exclusive-vehicle-specials'}
           target="_blank"
           rel="noopener noreferrer"
           className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:from-blue-700 hover:to-blue-800 transition-all shadow-md hover:shadow-lg group"
